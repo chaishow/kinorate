@@ -1,0 +1,22 @@
+<div class="modal fade" id="rateMovieModal" tabindex="-1" aria-labelledby="rateMovieModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="rateMovieModalLabel">Оценить фильм</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="rateMovieForm">
+          <div class="mb-3">
+            <label for="ratingSlider" class="form-label">Оценка: <span id="ratingValue">5</span>/10</label>
+            <input type="range" class="form-range" id="ratingSlider" min="1" max="10" step="1" value="5">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+        <button type="button" class="btn btn-primary" id="submitRating">Оценить</button>
+      </div>
+    </div>
+  </div>
+</div>

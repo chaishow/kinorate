@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_style %}
+<link href="{% static 'collection/css/style.css' %}">
+{% endblock  %}
+{% block content %}
+<section class="collections-section mt-5">
+  <div class="container">
+    <h2>Список подборок</h2>
+    
+    <ul class="list-group">
+      {% for coll in collections %}
+        {% include 'collection/includes/collection_card.html' with coll=coll %}
+      {% endfor %}
+    </ul>
+    
+    <!-- Кнопка для открытия модального окна -->
+    <div class="mt-4">
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCollectionModal">
+        Создать новую коллекцию
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Подключаем модальное окно -->
+{% include 'collection/includes/create_collection_modal.html' %}
+{% endblock %}
+
+{% block extra_script %}
+<script src="{% static 'collection/js/collections_script.js'%}"></script>
+{% endblock %}

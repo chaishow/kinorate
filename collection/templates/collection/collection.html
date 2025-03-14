@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_style %}
+<link href="{% static 'collection/css/style.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="collection-edit-section mt-5">
+  <div class="container">
+    <h2>{{ collection.name|capfirst }}</h2>
+
+    <div class="films-list mt-3">
+      {% for entry in films_rating %}
+        {% include 'collection/includes/collection_film_card.html' with film=entry.film rate=entry.rate %}
+      {% endfor %}
+    </div>
+
+    <!-- Кнопка для открытия модального окна -->
+    {% if not collection.is_system %}
+      <div class="mt-4">
+          <button class="btn btn-primary" data-collection-id="{{ collection.id }}" data-bs-toggle="modal" data-bs-target="#editCollectionModal">
+              Редактировать коллекцию
+          </button>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% include 'collection/includes/film_rate_modal.html' %}
+{% if not collection.is_system %}
+  {% include 'collection/includes/edit_film_list_modal.html' %}
+{% endif %}
+{% endblock %}
+
+{% block extra_script %}
+<script src="{% static 'collection/js/collection_edit_script.js' %}"></script>
+<script src="{% static 'collection/js/rate_movie_script.js' %}"></script>
+{% endblock %}

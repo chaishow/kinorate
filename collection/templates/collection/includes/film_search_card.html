@@ -1,0 +1,16 @@
+<div
+class="horizontal-movie-card"
+data-film-id="{{ film.id }}"
+>
+  <div class="poster">
+    <img src="{{ film.img_url }}" alt="{{ film.title }}">
+  </div>
+  <div class="content">   
+    <h3 class="title">{{ film.title }}</h3>
+    <p class="year">{{ film.year }}</p>
+    <p class="description">{{ film.description }}</p>
+  </div>
+  <div class="actions">
+    <button class="btn btn-dark">Хочу посмотреть</button>
+  </div>
+</div>

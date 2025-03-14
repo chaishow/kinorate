@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffa500;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .form-container {
+            background: #1e1e1e;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 165, 0, 0.5);
+            transform: scale(0.8);
+            opacity: 0;
+            transition: all 0.5s ease-in-out;
+        }
+        .form-container.show {
+            transform: scale(1);
+            opacity: 1;
+        }
+        .btn-custom {
+            background-color: #ffa500;
+            border: none;
+            transition: 0.3s;
+        }
+        .btn-custom:hover {
+            background-color: #ff8c00;
+        }
+        .password-requirements {
+            font-size: 0.6rem;
+            color: #ffa500;
+            margin-top: 5px;
+        }
+        .password-requirements ul {
+            padding-left: 20px;
+        }
+        .error {
+            color: #d84242;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2 class="text-center">{{labels.register_title}}</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="username" class="form-label">{{labels.username_label}}</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">{{labels.email_label}}</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">{{labels.password_label}}</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+                <small class="password-requirements">
+                    <ul>
+                        {% if messages %}
+                            {% for message in messages %}
+                            <li class="{{message.tags}}">{{ message }}</li>
+                            {% endfor %}
+                        {% else %}
+                            {% for req in requirements %}
+                            <li class="requirements">{{ req }}</li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </small>
+            </div>
+            <button type="submit" class="btn btn-custom w-100">{{labels.register_button_text}}</button>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('.form-container').addClass('show');
+        });
+    </script>
+</body>
+</html>
