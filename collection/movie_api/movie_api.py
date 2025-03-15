@@ -16,7 +16,7 @@ class KinopoiskAPI:
     def search_request(self, query, page=1, limit=10):
         try:
             headers = {'X-API-KEY': self.TOKEN}
-            url = f'https://api.kinopoisk.dev/v1.4/movie/search?page={page}&limit={limit}&query={query}'
+            url = f'https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword={page}&page={page}'
             response = get(url, headers=headers).json()
         except RequestException as e:
             raise RequestException(f'Ошибка {e} при обращении к API кинопоиска')
@@ -49,12 +49,9 @@ class KinopoiskAPI:
 
 if __name__ == '__main__':
     kp_api = KinopoiskAPI()
-    # data = kp_api.get_search_results(
-    #         query='Мстители Финал',
-    #         page=1,
-    #         limit=1
-    #        )
-    # print(json.dumps(data, indent=4, ensure_ascii=False))
-
-    data = kp_api.get_film_by_id(999999)
+    data = kp_api.get_search_results(
+            query='Стражи галактики 3',
+            page=1,
+            limit=1
+           )
     print(json.dumps(data, indent=4, ensure_ascii=False))

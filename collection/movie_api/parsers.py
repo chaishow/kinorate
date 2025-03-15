@@ -64,29 +64,29 @@ class KinopoiskParser(BaseParser):
     """Класс для парсинга ответа от API Кинопоиска"""
     DEFAULT = {
         'default_fields': {
-            'id': 'kinopoisk_id',
-            'name': 'title',
+            'filmId': 'kinopoisk_id',
+            'nameRu': 'title',
             'year': 'year',
-            'shortDescription': 'description',
+            'description': 'description',
+            'posterUrlPreview': 'img_url'
         },
-        'untouchable_keys': ['poster']
+        'untouchable_keys': ['posterUrlPreview']
     }
 
-    SEARCH_SOURCE = 'docs'
+    SEARCH_SOURCE = 'films'
 
     @classmethod
     def set_configuration(cls, configuration):
         cls.DEFAULT = configuration
 
     def __parse_unusual_fields(self, data_dict, film):
-        url = film.get('poster').get('previewUrl')
-        data_dict['img_url'] = url
+        pass
 
     def parse_search_response(self, response, clean=True):
 
         fields = self.DEFAULT.get('default_fields')
         films = response.get(self.SEARCH_SOURCE) 
-
+        print(films)
         if clean:
             films = self._clean_response(
                 films,
@@ -99,7 +99,6 @@ class KinopoiskParser(BaseParser):
         parsed = []
         for film in films:
             try:
-
                 parsed_film = {}
                 for api_key, parsed_key in fields.items():
                     parsed_film[parsed_key] = film[api_key]
@@ -111,6 +110,8 @@ class KinopoiskParser(BaseParser):
                 raise KeyError(
                     'В ответе нет ключа указанного в конфигурации.'
                     'Передайте или проверьте переданную конфигурацию.')
+            # except AttributeError:
+            #     continue
 
         return parsed
 

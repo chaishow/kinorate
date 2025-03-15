@@ -267,23 +267,26 @@ def get_films_rating(profile, collection):
 
 
 def move_from_unrated_to_rated(profile, film_id):
-    unrated = get_collection_by_name(
-        profile=profile,
-        name=defaults.DEFAULT_COLLECTION_NAME
-    )
+    try:
+        unrated = get_collection_by_name(
+            profile=profile,
+            collection_name=defaults.DEFAULT_COLLECTION_NAME
+        )
 
-    rated = get_collection_by_name(
-        profile=profile,
-        name=defaults.DEFAULT_RATED_COLLECTION_NAME
-    )
+        rated = get_collection_by_name(
+            profile=profile,
+            collection_name=defaults.DEFAULT_RATED_COLLECTION_NAME
+        )
 
-    film = unrated.films.filter(id=film_id).first()
-    if not film:
-        return
+        film = unrated.films.filter(id=film_id).first()
+        if not film:
+            return
 
-    with transaction.atomic():
-        unrated.films.remove(film)
-        rated.films.add(film)
+        with transaction.atomic():
+            unrated.films.remove(film)
+            rated.films.add(film)
+    except Exception as e:
+        print(f'Ошибка при перемещении коллекции {e}')
 
 
 def add_or_update_rate(profile, film_id, rate):
@@ -295,11 +298,14 @@ def add_or_update_rate(profile, film_id, rate):
         raise FilmNotFoundError
 
     with transaction.atomic():
-        rate, created = Rate.objects.update_or_create(
-            profile=profile,
-            film=film,
-            defaults={'rate': rate}
-        )
+        try:
+            rate, created = Rate.objects.update_or_create(
+                profile=profile,
+                film=film,
+                defaults={'rate': rate}
+            )
+        except Exception as e:
+            print(f'Оценка не добавилась {e}')
 
         if created:
             move_from_unrated_to_rated(profile, film_id)
