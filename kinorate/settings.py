@@ -4,9 +4,6 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-import django_heroku
-django_heroku.settings(locals())
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env_path = BASE_DIR / '.env'
@@ -19,10 +16,11 @@ DEBUG = False
 ALLOWED_HOSTS = [
     '192.168.0.3',
     '127.0.0.1',
+    'localhost'
 ]
 
-CSRF_TRUSTED_ORIGINS = ['https://your-app.herokuapp.com']
-SECURE_SSL_REDIRECT = True
+# CSRF_TRUSTED_ORIGINS = ['https://your-app.herokuapp.com']
+# SECURE_SSL_REDIRECT = True
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -108,10 +106,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-SECURE_SSL_REDIRECT = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
