@@ -1,7 +1,7 @@
 import os
 
 from requests import get, RequestException
-from .parsers import KinopoiskParser
+from parsers import KinopoiskParser
 import json
 
 KINOPOISK_TOKEN = os.getenv("KINOPOISK_TOKEN")
@@ -16,7 +16,7 @@ class KinopoiskAPI:
     def search_request(self, query, page=1, limit=10):
         try:
             headers = {'X-API-KEY': self.TOKEN}
-            url = f'https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword={page}&page={page}'
+            url = f'https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword={query}&page={page}'
             response = get(url, headers=headers).json()
         except RequestException as e:
             raise RequestException(f'Ошибка {e} при обращении к API кинопоиска')
