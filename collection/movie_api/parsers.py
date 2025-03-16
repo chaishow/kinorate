@@ -85,16 +85,12 @@ class KinopoiskParser(BaseParser):
     def parse_search_response(self, response, clean=True):
 
         fields = self.DEFAULT.get('default_fields')
-        films = response.get(self.SEARCH_SOURCE) 
-        print(films)
+        films = response.get(self.SEARCH_SOURCE)
         if clean:
             films = self._clean_response(
                 films,
                 untouchable_keys=(self.DEFAULT.get('untouchable_keys'))
             )
-
-        if not films:
-            return []
 
         parsed = []
         for film in films:
@@ -105,13 +101,8 @@ class KinopoiskParser(BaseParser):
                 self.__parse_unusual_fields(parsed_film, film)
 
                 parsed.append(parsed_film)
-
             except KeyError:
-                raise KeyError(
-                    'В ответе нет ключа указанного в конфигурации.'
-                    'Передайте или проверьте переданную конфигурацию.')
-            # except AttributeError:
-            #     continue
+                continue
 
         return parsed
 
@@ -119,9 +110,7 @@ class KinopoiskParser(BaseParser):
         fields = self.DEFAULT.get('default_fields')
         film = response
 
-        if not film:
-            return {}
-
+        parsed_film = {}
         if clean:
             film = self._clean_response(
                 film,
@@ -129,15 +118,11 @@ class KinopoiskParser(BaseParser):
             )
 
         try:
-            parsed_film = {}
             for api_key, parsed_key in fields.items():
                 parsed_film[parsed_key] = film[api_key]
                 self.__parse_unusual_fields(parsed_film, film)
-
         except KeyError:
-            raise KeyError(
-                'В ответе нет ключа указанного в конфигурации.'
-                'Передайте или проверьте переданную конфигурацию.')
+            pass
 
         return parsed_film
 

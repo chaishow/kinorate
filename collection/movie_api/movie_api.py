@@ -1,7 +1,7 @@
 import os
 
 from requests import get, RequestException
-from parsers import KinopoiskParser
+from .parsers import KinopoiskParser
 import json
 
 KINOPOISK_TOKEN = os.getenv("KINOPOISK_TOKEN")
@@ -50,7 +50,7 @@ class KinopoiskAPI:
 if __name__ == '__main__':
     kp_api = KinopoiskAPI()
     data = kp_api.get_search_results(
-            query='Стражи галактики 3',
+            query='Хатико',
             page=1,
             limit=1
            )
